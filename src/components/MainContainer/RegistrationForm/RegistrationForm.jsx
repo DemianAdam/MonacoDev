@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import DniInput from '../DniInput/DniInput';
+import DniInput from './DniInput/DniInput';
 import { Alert } from 'react-bootstrap';
-import BirthDateInput from '../BirthDateInput/BirthDateInput';
+import BirthDateInput from './BirthDateInput/BirthDateInput';
 import axios from 'axios';
 
 
