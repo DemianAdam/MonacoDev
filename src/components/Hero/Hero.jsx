@@ -8,11 +8,11 @@ import Row from 'react-bootstrap/Row';
 
 import { Button } from 'react-bootstrap'
 
-export default function MainContainer() {
+export default function Hero() {
     const [loading, setLoading] = useState(false);
     const [modalShow, setModalShow] = useState(false)
   return (
-    <Container className='d-flex flex-column'>
+    <Container fluid className='d-flex flex-column align-self-center'>
         <Row className='mb-5'>
           <h1>¡Registrate en nuestra Lista!</h1>
         </Row>

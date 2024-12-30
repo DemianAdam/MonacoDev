@@ -1,10 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+
 body {
   margin: 0;
   display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #242424;
+  background-image: url("../public/background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   color: white;
 }
 
