@@ -26,7 +26,7 @@ export default function Hero() {
             onHide={() => setModalShow(false)}
           />
         </Row>
-        {/*<Button onClick={()=>setModalShow(true)}>asd</Button>*/}
+        
       </Container>
   )
 }

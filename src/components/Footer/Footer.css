@@ -1,0 +1,8 @@
+.no-style-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.no-style-link:hover{
+    color: grey;
+}
