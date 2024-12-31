@@ -103,7 +103,7 @@ export default function RegistrationForm({ onLoading, setModalShow }) {
 
             <Form onSubmit={handleSumbit}>
                 <Form.Group className="mb-3" controlId="input-firstname">
-                    <Form.Label>Nombre</Form.Label>
+                    <Form.Label>Nombres</Form.Label>
                     <Form.Control required={requiredInputs} minLength={3} maxLength={30} type="text" placeholder="Tu Nombre" name='nombre' onInput={(e) => e.target.value = e.target.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')} />
                 </Form.Group>
 
