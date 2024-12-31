@@ -10,7 +10,9 @@ import axios from 'axios';
 export default function RegistrationForm({ onLoading, setModalShow }) {
     const [errorMessage, setErrorMessage] = useState("");
     const [isAgeValid, setIsAgeValid] = useState(true);
-    const [persons, setPersons] = useState({ quantity: 0, nombre: [], apellido: [], dni: [], fechas_de_nacimiento: [] });
+    const [dniValue, setDniValue] = useState(''); 
+    const [requiredInputs,setRequiredInputs] = useState(true);
+    const [persons, setPersons] = useState({ quantity: 0, nombre: [], apellido: [], dni: [], fecha_de_nacimiento: [] });
     const obj = {
         sheetName: null,
         quantity: 2,
@@ -28,8 +30,20 @@ export default function RegistrationForm({ onLoading, setModalShow }) {
     const url = "https://script.google.com/macros/s/AKfycbxAtC1j7_z8ipQijXk7b1uNEtxm_RbcTUlSwMMQNA7R_ORPfZI9mh2qWLPVyRyKyUT3/exec"
 
     const addPerson = (data) => {
-        /* setPersons((prev) => [...prev, data]);
-         console.log(persons)*/
+        let state = {};
+        setPersons((prevState) => {
+            const updatedState = {
+                ...prevState,
+                quantity: prevState.quantity + 1,
+                nombre: [...prevState.nombre, data.nombre],
+                apellido: [...prevState.apellido, data.apellido],
+                dni: [...prevState.dni, data.dni],
+                fecha_de_nacimiento: [...prevState.fecha_de_nacimiento, data.fecha_de_nacimiento],
+            }
+            state = updatedState;
+            return updatedState;
+        })
+        return state;
     }
     const register = async (data) => {
         try {
@@ -37,7 +51,7 @@ export default function RegistrationForm({ onLoading, setModalShow }) {
             const response = await axios.get(url, {
                 params: data,
             });
-           console.log(response)
+            console.log(response)
 
 
             if (response.status === 200) {
@@ -51,24 +65,34 @@ export default function RegistrationForm({ onLoading, setModalShow }) {
         }
     }
 
+    const resetPersonsState = () => {
+        setPersons({ quantity: 0, nombre: [], apellido: [], dni: [], fecha_de_nacimiento: [] })
+    }
+
     const handleSumbit = async (event) => {
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
         event.preventDefault();
         event.target.reset();
         const clickedButton = event.nativeEvent.submitter.name;
-        if (!isAgeValid) {
-            setErrorMessage("Debes ser mayor de 18 años para registrarte.");
-            return;
-        }
+        setDniValue('');
 
         console.log(data)
         switch (clickedButton) {
-            case 'register':
-                register(data)
+            case 'registerOne':
+                resetPersonsState();
+                const state = addPerson(data)
+                register(state)
                 break;
             case 'addPerson':
+                if (!isAgeValid) {
+                    setErrorMessage("Debe ser mayor de 18 años para registrar.");
+                    return;
+                }
                 addPerson(data);
+                break;
+            case 'registerAll':
+                register(persons)
                 break;
         }
     };
@@ -79,28 +103,32 @@ export default function RegistrationForm({ onLoading, setModalShow }) {
             <Form onSubmit={handleSumbit}>
                 <Form.Group className="mb-3" controlId="input-firstname">
                     <Form.Label>Nombre</Form.Label>
-                    <Form.Control required minLength={3} maxLength={30} type="text" placeholder="Tu Nombre" name='nombre' />
+                    <Form.Control required={requiredInputs} minLength={3} maxLength={30} type="text" placeholder="Tu Nombre" name='nombre' />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="input-lastname">
                     <Form.Label>Apellido</Form.Label>
-                    <Form.Control required minLength={3} maxLength={30} type="text" placeholder="Tu Apellido" name='apellido' />
+                    <Form.Control required={requiredInputs} minLength={3} maxLength={30} type="text" placeholder="Tu Apellido" name='apellido' />
                 </Form.Group>
 
-                <DniInput />
-                <BirthDateInput onAgeValidityChange={handleAgeValidityChange} />
+                <DniInput value={dniValue} setValue={setDniValue} required={requiredInputs}/>
+                <BirthDateInput onAgeValidityChange={handleAgeValidityChange} required={requiredInputs} />
                 {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
 
                 <div className='d-flex justify-content-evenly'>
-                    <Button variant="primary" type="submit" name='register'>
-                        Regitrar
+                    <Button variant="primary" type="submit" name='registerOne' onClick={()=>setRequiredInputs(true)}>
+                        Regitrar uno
                     </Button>
-
+                </div>
+                <div className='d-flex justify-content-evenly pt-2'>
                     <Button variant="primary" type="submit" name="addPerson">
                         Añadir Persona
                     </Button>
+                    <Button variant="primary" type="submit" name="registerAll" onClick={()=>setRequiredInputs(persons.quantity==0)}>
+                        Registrar Todas
+                    </Button>
                 </div>
-                {<Button onClick={() => register(obj)}>asd</Button>}
+                
             </Form>
 
         </>

@@ -22,7 +22,10 @@ export default function RegistrationModal(props) {
       </Modal.Header>
 
 
-      <Modal.Body className='text-center'>
+      <Modal.Body className='text-center modal-header'>
+        <span>Te esperamos en <b>MÓNACO</b> de 1:30 am a 3:30 am</span>
+      </Modal.Body>
+      <Modal.Body className='text-center '>
         <span>Te esperamos en <b>MÓNACO</b> de 1:30 am a 3:30 am</span>
       </Modal.Body>
 

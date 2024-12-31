@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 
-function DniInput() {
-    const [formattedValue, setFormattedValue] = useState('');
+function DniInput({value,setValue,requiredInputs}) {
+
     const [isValid, setIsValid] = useState(true);
 
 
@@ -10,7 +10,7 @@ function DniInput() {
         const rawValue = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
         // Check if exactly 8 numbers are entered
         setIsValid(rawValue.length === 0|| rawValue.length  === 3)
-        setFormattedValue(rawValue);
+        setValue(rawValue);
 
     };
 
@@ -21,10 +21,10 @@ function DniInput() {
                 type="text"
                 placeholder="xxx"
                 name="dni"
-                value={formattedValue}
+                value={value}
                 onChange={handleChange}
                 isInvalid={!isValid} // Highlight input if invalid
-                required
+                required={requiredInputs}
                 minLength={3}
                 maxLength={3}
             />
