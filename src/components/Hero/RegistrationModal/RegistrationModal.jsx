@@ -3,9 +3,10 @@ import Button from 'react-bootstrap/Button';
 import "./RegistrationModal.css"
 
 import React from 'react'
-import { CloseButton, ModalBody, Row } from 'react-bootstrap';
+import { CloseButton, ModalBody, Row, Table } from 'react-bootstrap';
 
 export default function RegistrationModal(props) {
+
   return (
     <Modal
       {...props}
@@ -25,11 +26,8 @@ export default function RegistrationModal(props) {
       <Modal.Body className='text-center modal-header'>
         <span>Te esperamos en <b>MÓNACO</b> de 1:30 am a 3:30 am</span>
       </Modal.Body>
-      <Modal.Body className='text-center '>
-        <span>Te esperamos en <b>MÓNACO</b> de 1:30 am a 3:30 am</span>
-      </Modal.Body>
 
-      <Modal.Footer className='d-flex justify-content-center'>
+      <Modal.Footer className='d-flex justify-content-evenly'>
         <Button onClick={props.onHide}>Cerrar</Button>
       </Modal.Footer>
     </Modal>

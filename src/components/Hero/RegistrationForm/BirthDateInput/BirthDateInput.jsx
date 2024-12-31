@@ -18,8 +18,8 @@ export default function BirthDateInput({ onAgeValidityChange,requiredInputs }) {
         const rawValue = e.target.value;
         const date = rawValue.replace(/-/g, '/');
         const age = calculateAge(date);
-        setIsValid(age >= 18);
-        onAgeValidityChange(age >= 18)
+        setIsValid(age >= 18 && age <= 50);
+        onAgeValidityChange(age >= 18 && age <= 50)
     };
 
     return (

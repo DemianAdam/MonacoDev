@@ -4,10 +4,11 @@ import './App.css'
 import Footer from './components/Footer/Footer'
 import Header from './components/Header/Header'
 import Hero from './components/Hero/Hero'
-
+import TableHead from './components/Hero/RegistrationForm/Table/TableHead/TableHead'
+import Table from 'react-bootstrap/Table';
 
 function App() {
-
+  const test = [1, 1, 2, 3]
 
   return (
     <>
@@ -24,6 +25,10 @@ function App() {
       <Row className='w-100'>
         <Footer />
       </Row>
+      {/*<Table>
+        <TableHead elements={test} />
+      </Table>*/}
+
     </>
   )
 }
