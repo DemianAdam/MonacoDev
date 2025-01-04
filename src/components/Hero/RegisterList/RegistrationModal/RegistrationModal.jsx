@@ -17,14 +17,14 @@ export default function RegistrationModal(props) {
     >
       <Modal.Header className='justify-content-center align-items-center position-relative' >
         <Modal.Title id="contained-modal-title-vcenter" className='p-2 text-center flex-grow-1' >
-          ¡Gracias por Registrarte!
+          {props.content.title}
         </Modal.Title>
         <CloseButton className='align-self-start m-0 position-absolute top-0 end-0' onClick={props.onHide} />
       </Modal.Header>
 
 
       <Modal.Body className='text-center modal-header'>
-        <span>Te esperamos en <b>MÓNACO</b> de 1:30 am a 3:30 am</span>
+        {props.content.body}
       </Modal.Body>
 
       <Modal.Footer className='d-flex justify-content-evenly'>

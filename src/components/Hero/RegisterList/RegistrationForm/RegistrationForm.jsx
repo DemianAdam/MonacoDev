@@ -4,15 +4,18 @@ import Form from 'react-bootstrap/Form';
 import DniInput from './DniInput/DniInput';
 import { Alert } from 'react-bootstrap';
 import BirthDateInput from './BirthDateInput/BirthDateInput';
-import axios from 'axios';
+import axios from '../../../../services/axios/axiosInstance';
 
 
-export default function RegistrationForm({ onLoading, setModalShow }) {
+export default function RegistrationForm({ onLoading, setModalShow, setModalContent }) {
     const [errorMessage, setErrorMessage] = useState("");
     const [isAgeValid, setIsAgeValid] = useState(true);
     const [dniValue, setDniValue] = useState('');
     const [requiredInputs, setRequiredInputs] = useState(true);
     const [persons, setPersons] = useState({ quantity: 0, nombre: [], apellido: [], dni: [], fecha_de_nacimiento: [] });
+
+
+
     const obj = {
         sheetName: null,
         quantity: 2,
@@ -27,7 +30,7 @@ export default function RegistrationForm({ onLoading, setModalShow }) {
         setIsAgeValid(validity);
         setErrorMessage("");  // Clear error message when age is valid
     };
-    const url = "https://script.google.com/macros/s/AKfycbxAtC1j7_z8ipQijXk7b1uNEtxm_RbcTUlSwMMQNA7R_ORPfZI9mh2qWLPVyRyKyUT3/exec"
+    const url = "https://script.google.com/macros/s/AKfycbxke3-BJloTrtP6wmLBzSyV44E-BQGIffHM_IWEds067-g5wxKGaPUjmSszVBE0mfDr/exec"
 
     const addPerson = (data) => {
         setPersons((prevState) => ({
@@ -40,32 +43,39 @@ export default function RegistrationForm({ onLoading, setModalShow }) {
 
         }))
     }
-    const register = async (data) => {
-        try {
-            onLoading(true)
-            const response = await axios.get(url, {
-                params: data,
-            });
-            console.log(response)
+    const register = (data) => {
+        onLoading(true)
 
+        data.endpoint = "addPersons";
 
-            if (response.status === 200) {
-                setModalShow(true)
-                resetPersonsState();
-            }
-        } catch (error) {
+        axios.get(url, {
+            params: data,
+        }).then((response) => {
+            setModalContent({
+                title: "!Gracias por Registrarte¡",
+                body: <span>Te esperamos en Mónaco de 1:30 am a 3:30 am{console.log(response)}</span>
+            })
+            setModalShow(true)
+            resetPersonsState();
+        }).catch((error) => {
+            setModalContent({
+                title: "Ups, hubo un error al registrar",
+                body: <span>Intenta de nuevo mas tarde o habla con uno de nuestros promotores</span>
+            })
+            setModalShow(true)
             console.log(error)
-        }
-        finally {
+        }).finally(() => {
             onLoading(false);
-        }
+        })
+
+
     }
 
     const resetPersonsState = () => {
         setPersons({ quantity: 0, nombre: [], apellido: [], dni: [], fecha_de_nacimiento: [] })
     }
 
-    const handleSumbit = async (event) => {
+    const handleSumbit = (event) => {
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
         event.preventDefault();
@@ -94,6 +104,7 @@ export default function RegistrationForm({ onLoading, setModalShow }) {
                 break;
             case 'registerAll':
                 register(persons)
+
                 break;
         }
     };
@@ -109,7 +120,7 @@ export default function RegistrationForm({ onLoading, setModalShow }) {
 
                 <Form.Group className="mb-3" controlId="input-lastname">
                     <Form.Label>Apellido</Form.Label>
-                    <Form.Control required={requiredInputs} minLength={3} maxLength={30} type="text" placeholder="Tu Apellido" name='apellido' onInput={(e) => e.target.value = e.target.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')}/>
+                    <Form.Control required={requiredInputs} minLength={3} maxLength={30} type="text" placeholder="Tu Apellido" name='apellido' onInput={(e) => e.target.value = e.target.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')} />
                 </Form.Group>
 
                 <DniInput value={dniValue} setValue={setDniValue} required={requiredInputs} />

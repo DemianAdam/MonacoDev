@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <div className='p-2'>
 
-      <a className='no-style-link' href="">
+      <a className='no-style-link' href="https://www.instagram.com/monacomc.ofc/">
         <FontAwesomeIcon icon={faInstagram} size='3x' />
       </a>
 
