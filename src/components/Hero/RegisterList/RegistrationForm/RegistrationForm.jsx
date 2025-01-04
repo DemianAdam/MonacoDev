@@ -12,7 +12,7 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
     const [isAgeValid, setIsAgeValid] = useState(true);
     const [dniValue, setDniValue] = useState('');
     const [requiredInputs, setRequiredInputs] = useState(true);
-    const [persons, setPersons] = useState({ quantity: 0, nombre: [], apellido: [], dni: [], fecha_de_nacimiento: [] });
+    const [persons, setPersons] = useState([]);
 
 
 
@@ -33,23 +33,21 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
     const url = "https://script.google.com/macros/s/AKfycbxke3-BJloTrtP6wmLBzSyV44E-BQGIffHM_IWEds067-g5wxKGaPUjmSszVBE0mfDr/exec"
 
     const addPerson = (data) => {
-        setPersons((prevState) => ({
-            ...prevState,
-            quantity: prevState.quantity + 1,
-            nombre: [...prevState.nombre, data.nombre],
-            apellido: [...prevState.apellido, data.apellido],
-            dni: [...prevState.dni, data.dni],
-            fecha_de_nacimiento: [...prevState.fecha_de_nacimiento, data.fecha_de_nacimiento],
-
-        }))
+        setPersons((prevPersons) => [...prevPersons, newPerson]);
     }
     const register = (data) => {
         onLoading(true)
+        const requestObject = {
+            endpoint: "addPersons",
+            persons: data
+        }
 
-        data.endpoint = "addPersons";
-
+        const jsonObject = JSON.stringify(requestObject);
+        console.log(jsonObject)
         axios.get(url, {
-            params: data,
+            params: {
+                data: jsonObject
+            }
         }).then((response) => {
             setModalContent({
                 title: "!Gracias por Registrarte¡",
@@ -72,7 +70,8 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
     }
 
     const resetPersonsState = () => {
-        setPersons({ quantity: 0, nombre: [], apellido: [], dni: [], fecha_de_nacimiento: [] })
+        setPersons([]);
+        setRequiredInputs(true);
     }
 
     const handleSumbit = (event) => {
@@ -86,14 +85,7 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
         console.log(data)
         switch (clickedButton) {
             case 'registerOne':
-                const singlePerson = {
-                    quantity: 1,
-                    nombre: [data.nombre],
-                    apellido: [data.apellido],
-                    dni: [data.dni],
-                    fecha_de_nacimiento: [data.fecha_de_nacimiento],
-                };
-                register(singlePerson)
+                register([data])
                 break;
             case 'addPerson':
                 if (!isAgeValid) {
@@ -104,7 +96,6 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
                 break;
             case 'registerAll':
                 register(persons)
-
                 break;
         }
     };
@@ -136,7 +127,7 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
                     <Button variant="primary" type="submit" name="addPerson">
                         Añadir Persona
                     </Button>
-                    <Button variant="primary" type="submit" name="registerAll" onClick={() => setRequiredInputs(persons.quantity == 0)}>
+                    <Button variant="primary" type="submit" name="registerAll" onClick={() => setRequiredInputs(persons.length == 0)}>
                         Registrar Todas
                     </Button>
                 </div>

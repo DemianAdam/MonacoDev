@@ -4,7 +4,7 @@ import RegistrationForm from './RegistrationForm/RegistrationForm';
 import LoadingSpinner from './LoadingSpinner/LoadingSpinner'
 import RegistrationModal from './RegistrationModal/RegistrationModal'
 import MyTable from './RegistrationForm/MyTable/MyTable'
-
+import { useEffect } from 'react';
 
 export default function RegisterList({ setHeader }) {
   const [loading, setLoading] = useState(false);
