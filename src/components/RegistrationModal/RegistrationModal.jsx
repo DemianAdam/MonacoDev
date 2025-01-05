@@ -23,7 +23,7 @@ export default function RegistrationModal(props) {
       </Modal.Header>
 
 
-      <Modal.Body className='text-center modal-header'>
+      <Modal.Body className='text-center modal-header d-flex flex-column justify-content-center'>
         {props.content.body}
       </Modal.Body>
 
