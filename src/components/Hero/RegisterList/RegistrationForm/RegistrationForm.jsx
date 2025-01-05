@@ -5,6 +5,7 @@ import DniInput from './DniInput/DniInput';
 import { Alert } from 'react-bootstrap';
 import BirthDateInput from './BirthDateInput/BirthDateInput';
 import axios from 'axios';
+import MyTable from './MyTable/MyTable';
 
 
 export default function RegistrationForm({ onLoading, setModalShow, setModalContent, user, setUser }) {
@@ -13,8 +14,7 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
     const [dniValue, setDniValue] = useState('');
     const [requiredInputs, setRequiredInputs] = useState(true);
     const [persons, setPersons] = useState([]);
-
-
+    //const table = <MyTable headers={tableProps.headers} rows={tableProps.rows} obj={tableProps.persons} />
     const handleAgeValidityChange = (validity) => {
         setIsAgeValid(validity);
         setErrorMessage("");  // Clear error message when age is valid

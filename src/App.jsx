@@ -27,7 +27,7 @@ function App() {
         <Col sm={5}>
           <Container fluid className='d-flex flex-column align-self-center'>
             <Row className='mb-5'>
-              <h1>{header}</h1>
+              <h2>{header}</h2>
             </Row>
             <Row className='d-flex justify-content-center'>
               {
