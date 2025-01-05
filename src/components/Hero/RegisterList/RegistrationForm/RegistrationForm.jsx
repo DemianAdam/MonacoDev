@@ -38,7 +38,21 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
     const addPerson = (newPerson) => {
         setPersons((prevPersons) => [...prevPersons, newPerson]);
     }
+
+    const showModal = (mode, title, body, footer) => {
+        setModalMode(mode);
+        setModalContent({
+            title: title,
+            body: body,
+            footer: footer
+        });
+        setModalShow(true);
+    }
     const register = (data) => {
+        if (persons.length === 0) {
+            setErrorMessage("Debes registrar al menos una persona.");
+            return;
+        }
         const url = "https://script.google.com/macros/s/AKfycbxke3-BJloTrtP6wmLBzSyV44E-BQGIffHM_IWEds067-g5wxKGaPUjmSszVBE0mfDr/exec"
         onLoading(true)
         const obj = {
@@ -51,30 +65,19 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
         axios.post(url, json).then((response) => {
             const data = response.data;
             if (data.result === "success") {
-                setModalMode('register');
-                setModalContent({
-                    title: "!Gracias por Registrarte¡",
-                    body: <span>Te esperamos en Mónaco de 1:30 am a 3:30 am</span>
-                })
-                setModalShow(true)
+                console.log(data);
+                if (data.persons > 1) {
+                }
+                else {
+                    showModal('register', '¡Gracias por Registrarte!', <span>Te esperamos en Mónaco de 1:30 am a 3:30 am</span>)
+                }
                 resetPersonsState();
             }
             else {
-                setModalMode('error');
-                setModalContent({
-                    title: "Ups! hubo un error al registrar",
-                    body: <span>{data.description}</span>
-                })
-                setModalShow(true)
+                showModal('error', 'Ups! hubo un error al registrar', <span>{data.description}</span>)
             }
-            console.log(response.data)
         }).catch((error) => {
-            setModalMode('error');
-            setModalContent({
-                title: "Ups! hubo un error inesperado al registrar",
-                body: <span>Intenta de nuevo mas tarde o habla con un administrador</span>
-            })
-            setModalShow(true)
+            showModal('error', 'Ups! hubo un error al registrar', <span>Intenta de nuevo mas tarde o habla con un administrador</span>)
             console.log(error)
         }).finally(() => {
             onLoading(false);
@@ -135,18 +138,13 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
                 }
                 addPerson(data);
                 break;
-            case 'registerAll':
-                setModalMode('view');
+            case 'registerAll':                
                 const { tableHeaders, tableRows } = generateTableContent(persons, deletePerson);
-
-                setModalContent({
-                    title: "Personas a registrar",
-                    body: <PersonsTable headers={tableHeaders} array={tableRows} />,
-                    footer: <Button onClick={() => { register(persons); setModalShow(false); }}>Registrar</Button>
-                });
-                setModalShow(true);
-
-                //register(persons)
+                showModal('view',
+                    'Personas a registrar',
+                    <PersonsTable headers={tableHeaders} array={tableRows} />,
+                    <Button onClick={() => { register(persons); setModalShow(false); }}>Registrar</Button>
+                )
                 break;
         }
     };
