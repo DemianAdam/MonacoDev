@@ -41,7 +41,6 @@ function App() {
                         setModalShow={setModalShow}
                         setModalContent={setModalContent}
                         user={user}
-                        setUser={setUser}
                       />:
                       <Navigate replace to='/Monaco/Login' />
                     }

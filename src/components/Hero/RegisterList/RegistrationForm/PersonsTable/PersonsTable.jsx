@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'react-bootstrap'
 
-export default function MyTable({ headers, rows, obj }) {
+export default function PersonsTable({ headers, array }) {
   return (
     <Table>
       <thead>
@@ -15,11 +15,11 @@ export default function MyTable({ headers, rows, obj }) {
       </thead>
       <tbody>
         {
-          [...Array(rows)].map((_, row) => (
-            <tr key={row}>
+          array.map((e, i) => (
+            <tr key={i}>
               {
-                Object.keys(obj).map((property) => (
-                  <td key={`${property}${obj.id[row]}`}>{obj[property][row]}</td>
+                e.map((e, i) => (
+                  <td key={i}>{e}</td>
                 ))
               }
             </tr>

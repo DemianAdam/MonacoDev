@@ -5,26 +5,41 @@ import DniInput from './DniInput/DniInput';
 import { Alert } from 'react-bootstrap';
 import BirthDateInput from './BirthDateInput/BirthDateInput';
 import axios from 'axios';
-import MyTable from './MyTable/MyTable';
+import { useEffect } from 'react';
+import PersonsTable from './PersonsTable/PersonsTable';
 
-
-export default function RegistrationForm({ onLoading, setModalShow, setModalContent, user, setUser }) {
+export default function RegistrationForm({ onLoading, setModalShow, setModalContent, user }) {
     const [errorMessage, setErrorMessage] = useState("");
     const [isAgeValid, setIsAgeValid] = useState(true);
     const [dniValue, setDniValue] = useState('');
     const [requiredInputs, setRequiredInputs] = useState(true);
     const [persons, setPersons] = useState([]);
+    const [modalMode, setModalMode] = useState(null); // 'view', 'register', or 'error'
+
+
+    useEffect(() => {
+        if (modalMode === 'view') {
+            const { tableHeaders, tableRows } = generateTableContent(persons, deletePerson);
+            setModalContent({
+                title: "Personas a registrar",
+                body: <PersonsTable headers={tableHeaders} array={tableRows} />,
+                footer: <Button onClick={() => { register(persons); setModalShow(false); }}>Registrar</Button>
+            });
+        }
+    }, [persons, modalMode, setModalContent]);
+
     //const table = <MyTable headers={tableProps.headers} rows={tableProps.rows} obj={tableProps.persons} />
     const handleAgeValidityChange = (validity) => {
         setIsAgeValid(validity);
         setErrorMessage("");  // Clear error message when age is valid
     };
-    const url = "https://script.google.com/macros/s/AKfycbxke3-BJloTrtP6wmLBzSyV44E-BQGIffHM_IWEds067-g5wxKGaPUjmSszVBE0mfDr/exec"
+
 
     const addPerson = (newPerson) => {
         setPersons((prevPersons) => [...prevPersons, newPerson]);
     }
     const register = (data) => {
+        const url = "https://script.google.com/macros/s/AKfycbxke3-BJloTrtP6wmLBzSyV44E-BQGIffHM_IWEds067-g5wxKGaPUjmSszVBE0mfDr/exec"
         onLoading(true)
         const obj = {
             method: "POST",
@@ -36,7 +51,7 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
         axios.post(url, json).then((response) => {
             const data = response.data;
             if (data.result === "success") {
-
+                setModalMode('register');
                 setModalContent({
                     title: "!Gracias por Registrarte¡",
                     body: <span>Te esperamos en Mónaco de 1:30 am a 3:30 am</span>
@@ -45,6 +60,7 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
                 resetPersonsState();
             }
             else {
+                setModalMode('error');
                 setModalContent({
                     title: "Ups! hubo un error al registrar",
                     body: <span>{data.description}</span>
@@ -53,6 +69,7 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
             }
             console.log(response.data)
         }).catch((error) => {
+            setModalMode('error');
             setModalContent({
                 title: "Ups! hubo un error inesperado al registrar",
                 body: <span>Intenta de nuevo mas tarde o habla con un administrador</span>
@@ -70,6 +87,32 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
         setPersons([]);
         setRequiredInputs(true);
     }
+    const generateTableContent = (persons, deletePersonCallback) => {
+        const tableHeaders = ["#", "Nombre", "Apellido", "DNI", "Fecha de Nacimiento", "Eliminar"];
+        const tableRows = persons.map((person, index) => {
+            return [
+                index + 1,
+                person.name,
+                person.lastname,
+                person.dni,
+                person.birthday,
+                <Button
+                    variant="danger"
+                    onClick={() => deletePersonCallback(index)}
+                >
+                    Eliminar
+                </Button>,
+            ];
+        });
+
+        return { tableHeaders, tableRows };
+    };
+
+    const deletePerson = (index) => {
+        setPersons((prevPersons) => {
+            return prevPersons.filter((_, i) => i !== index);
+        });
+    };
 
     const handleSumbit = (event) => {
         const formData = new FormData(event.target);
@@ -78,9 +121,11 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
         event.target.reset();
         const clickedButton = event.nativeEvent.submitter.name;
         setDniValue('');
+        console.log(data)
 
         switch (clickedButton) {
             case 'registerOne':
+                setModalMode('register');
                 register([data])
                 break;
             case 'addPerson':
@@ -91,7 +136,17 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
                 addPerson(data);
                 break;
             case 'registerAll':
-                register(persons)
+                setModalMode('view');
+                const { tableHeaders, tableRows } = generateTableContent(persons, deletePerson);
+
+                setModalContent({
+                    title: "Personas a registrar",
+                    body: <PersonsTable headers={tableHeaders} array={tableRows} />,
+                    footer: <Button onClick={() => { register(persons); setModalShow(false); }}>Registrar</Button>
+                });
+                setModalShow(true);
+
+                //register(persons)
                 break;
         }
     };

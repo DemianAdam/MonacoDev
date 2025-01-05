@@ -28,6 +28,7 @@ export default function RegistrationModal(props) {
       </Modal.Body>
 
       <Modal.Footer className='d-flex justify-content-evenly'>
+        {props.content.footer}
         <Button onClick={props.onHide}>Cerrar</Button>
       </Modal.Footer>
     </Modal>

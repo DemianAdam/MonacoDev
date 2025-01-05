@@ -1,6 +1,6 @@
 import React from 'react'
 import RegistrationForm from './RegistrationForm/RegistrationForm';
-import MyTable from './RegistrationForm/MyTable/MyTable'
+import MyTable from './RegistrationForm/PersonsTable/PersonsTable'
 import { useEffect } from 'react';
 
 export default function RegisterList({ setHeader, setLoading, setModalShow, setModalContent, user, setUser }) {
