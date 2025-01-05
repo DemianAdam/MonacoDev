@@ -65,7 +65,6 @@ export default function Login({ setHeader, setIsLogged, setUser, setLoading, set
                     Iniciar Sesión
                 </Button>
             </Form>
-            {<Button onClick={() => testPost({ nombre: "wea", apellido: "weon" })}>POST</Button>}
         </>
     )
 }
