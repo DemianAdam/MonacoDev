@@ -53,6 +53,8 @@ function App() {
                         setIsLogged={setIsLogged}
                         setUser={setUser}
                         setLoading={setLoading}
+                        setModalShow={setModalShow}
+                        setModalContent={setModalContent}
                       />}
                     />
                   </Routes> :

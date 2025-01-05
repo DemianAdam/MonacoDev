@@ -21,7 +21,7 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
     };
     const url = "https://script.google.com/macros/s/AKfycbxke3-BJloTrtP6wmLBzSyV44E-BQGIffHM_IWEds067-g5wxKGaPUjmSszVBE0mfDr/exec"
 
-    const addPerson = (data) => {
+    const addPerson = (newPerson) => {
         setPersons((prevPersons) => [...prevPersons, newPerson]);
     }
     const register = (data) => {

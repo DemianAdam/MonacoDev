@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login({ setHeader, setIsLogged, setUser, setLoading }) {
+export default function Login({ setHeader, setIsLogged, setUser, setLoading, setModalShow, setModalContent }) {
     useEffect(() => {
         setHeader("¡Inicia Sesión!");
     }, [setHeader]);
@@ -29,6 +29,10 @@ export default function Login({ setHeader, setIsLogged, setUser, setLoading }) {
                 setIsLogged(true);
                 setUser(data.userData.user);
                 navigate('/Monaco')
+            }
+            else {
+                setModalContent({ title: "Error", body: "Usuario o contraseña incorrectos" });
+                setModalShow(true);
             }
         }).catch((error) => {
             console.log(error)
