@@ -27,7 +27,7 @@ export default function BirthDateInput({ onAgeValidityChange,requiredInputs }) {
             <Form.Label>Fecha de Nacimiento</Form.Label>
             <Form.Control
                 type="date"
-                name='fecha_de_nacimiento'
+                name='birthday'
                 required={requiredInputs}
                 onChange={handleChange}
                 isInvalid={!isValid}

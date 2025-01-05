@@ -4,26 +4,15 @@ import Form from 'react-bootstrap/Form';
 import DniInput from './DniInput/DniInput';
 import { Alert } from 'react-bootstrap';
 import BirthDateInput from './BirthDateInput/BirthDateInput';
-import axios from '../../../../services/axios/axiosInstance';
+import axios from 'axios';
 
 
-export default function RegistrationForm({ onLoading, setModalShow, setModalContent }) {
+export default function RegistrationForm({ onLoading, setModalShow, setModalContent, user, setUser }) {
     const [errorMessage, setErrorMessage] = useState("");
     const [isAgeValid, setIsAgeValid] = useState(true);
     const [dniValue, setDniValue] = useState('');
     const [requiredInputs, setRequiredInputs] = useState(true);
     const [persons, setPersons] = useState([]);
-
-
-
-    const obj = {
-        sheetName: null,
-        quantity: 2,
-        nombre: ["WEA", "Nombre01"],
-        apellido: ["Apellido00", "Apellido01"],
-        dni: ["123", "456"],
-        fecha_de_nacimiento: ["2000-01-01", "2000-02-02"]
-    }
 
 
     const handleAgeValidityChange = (validity) => {
@@ -37,28 +26,36 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
     }
     const register = (data) => {
         onLoading(true)
-        const requestObject = {
+        const obj = {
+            method: "POST",
             endpoint: "addPersons",
-            persons: data
+            persons: data,
+            user
         }
+        const json = JSON.stringify(obj);
+        axios.post(url, json).then((response) => {
+            const data = response.data;
+            if (data.result === "success") {
 
-        const jsonObject = JSON.stringify(requestObject);
-        console.log(jsonObject)
-        axios.get(url, {
-            params: {
-                data: jsonObject
+                setModalContent({
+                    title: "!Gracias por Registrarte¡",
+                    body: <span>Te esperamos en Mónaco de 1:30 am a 3:30 am</span>
+                })
+                setModalShow(true)
+                resetPersonsState();
             }
-        }).then((response) => {
-            setModalContent({
-                title: "!Gracias por Registrarte¡",
-                body: <span>Te esperamos en Mónaco de 1:30 am a 3:30 am{console.log(response)}</span>
-            })
-            setModalShow(true)
-            resetPersonsState();
+            else {
+                setModalContent({
+                    title: "Ups! hubo un error al registrar",
+                    body: <span>{data.description}</span>
+                })
+                setModalShow(true)
+            }
+            console.log(response.data)
         }).catch((error) => {
             setModalContent({
-                title: "Ups, hubo un error al registrar",
-                body: <span>Intenta de nuevo mas tarde o habla con uno de nuestros promotores</span>
+                title: "Ups! hubo un error inesperado al registrar",
+                body: <span>Intenta de nuevo mas tarde o habla con un administrador</span>
             })
             setModalShow(true)
             console.log(error)
@@ -82,7 +79,6 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
         const clickedButton = event.nativeEvent.submitter.name;
         setDniValue('');
 
-        console.log(data)
         switch (clickedButton) {
             case 'registerOne':
                 register([data])
@@ -106,12 +102,12 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
             <Form onSubmit={handleSumbit}>
                 <Form.Group className="mb-3" controlId="input-firstname">
                     <Form.Label>Nombres</Form.Label>
-                    <Form.Control required={requiredInputs} minLength={3} maxLength={30} type="text" placeholder="Tu Nombre" name='nombre' onInput={(e) => e.target.value = e.target.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')} />
+                    <Form.Control required={requiredInputs} minLength={3} maxLength={30} type="text" placeholder="Tu Nombre" name='name' onInput={(e) => e.target.value = e.target.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="input-lastname">
                     <Form.Label>Apellido</Form.Label>
-                    <Form.Control required={requiredInputs} minLength={3} maxLength={30} type="text" placeholder="Tu Apellido" name='apellido' onInput={(e) => e.target.value = e.target.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')} />
+                    <Form.Control required={requiredInputs} minLength={3} maxLength={30} type="text" placeholder="Tu Apellido" name='lastname' onInput={(e) => e.target.value = e.target.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')} />
                 </Form.Group>
 
                 <DniInput value={dniValue} setValue={setDniValue} required={requiredInputs} />

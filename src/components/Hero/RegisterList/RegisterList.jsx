@@ -1,15 +1,10 @@
 import React from 'react'
-import { useState } from 'react'
 import RegistrationForm from './RegistrationForm/RegistrationForm';
-import LoadingSpinner from './LoadingSpinner/LoadingSpinner'
-import RegistrationModal from './RegistrationModal/RegistrationModal'
 import MyTable from './RegistrationForm/MyTable/MyTable'
 import { useEffect } from 'react';
 
-export default function RegisterList({ setHeader }) {
-  const [loading, setLoading] = useState(false);
-  const [modalShow, setModalShow] = useState(false)
-  const [modalContent, setModalContent] = useState({ title: "", body: "" });
+export default function RegisterList({ setHeader, setLoading, setModalShow, setModalContent, user, setUser }) {
+
   useEffect(() => {
     setHeader("¡Registrate en nuestra Lista!");
   }, [setHeader]);
@@ -38,20 +33,17 @@ export default function RegisterList({ setHeader }) {
 
   return (
     <>
-      {
-        !loading ?
-          <RegistrationForm onLoading={setLoading} setModalShow={setModalShow} setModalContent={setModalContent} />
-          :
-          <LoadingSpinner />
-      }
-      <RegistrationModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        content={modalContent}
+
+      <RegistrationForm
+        onLoading={setLoading}
+        setModalShow={setModalShow}
+        setModalContent={setModalContent}
+        user={user}
+        setUser={setUser}
       />
 
       <MyTable headers={tableProps.headers} rows={tableProps.rows} obj={tableProps.persons} />
-      
+
 
     </>
   )

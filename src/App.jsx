@@ -5,12 +5,18 @@ import './App.css'
 import Footer from './components/Footer/Footer'
 import Header from './components/Header/Header'
 import RegisterList from './components/Hero/RegisterList/RegisterList'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './components/Hero/LogIn/Login'
+import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner'
+import RegistrationModal from './components/RegistrationModal/RegistrationModal'
 
 function App() {
   const [header, setHeader] = useState("");
-
+  const [isLogged, setIsLogged] = useState(false);
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [modalShow, setModalShow] = useState(false)
+  const [modalContent, setModalContent] = useState({ title: "", body: "" });
   return (
     <>
       <Row className='w-100'>
@@ -24,10 +30,40 @@ function App() {
               <h1>{header}</h1>
             </Row>
             <Row className='d-flex justify-content-center'>
-              <Routes>
-                <Route path='/Monaco' element={<RegisterList setHeader={setHeader} />} />
-                <Route path='/Monaco/Login' element={<Login setHeader={setHeader} />} />
-              </Routes>
+              {
+                !loading ?
+                  <Routes>
+                    <Route
+                      path='/Monaco'
+                      element={isLogged? <RegisterList
+                        setHeader={setHeader}
+                        setLoading={setLoading}
+                        setModalShow={setModalShow}
+                        setModalContent={setModalContent}
+                        user={user}
+                        setUser={setUser}
+                      />:
+                      <Navigate replace to='/Monaco/Login' />
+                    }
+                    />
+                    <Route
+                      path='/Monaco/Login'
+                      element={<Login
+                        setHeader={setHeader}
+                        setIsLogged={setIsLogged}
+                        setUser={setUser}
+                        setLoading={setLoading}
+                      />}
+                    />
+                  </Routes> :
+                   <LoadingSpinner />
+              }
+
+              <RegistrationModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                content={modalContent}
+              />
             </Row>
           </Container>
         </Col>
