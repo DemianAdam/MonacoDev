@@ -71,18 +71,18 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
             }
             if (personsData.persons.length === 1) {
                 showModal('register', '¡Se Registro Correctamente!', <span>{`Te quedan ${userData.user.remaining} personas para añadir`}</span>)
-                return;
+            }
+            else {
+                showModal('register',
+                    `¡Se Registraron Correctamente ${personsData.news.length} Personas!`,
+                    <>
+                        <span> {`Hubo ${personsData.duplicates.length} duplicados.`}</span>
+                        <span>{`Te quedan ${userData.user.remaining} personas para añadir`}</span>
+                    </>)
             }
 
-            showModal('register',
-                `¡Se Registraron Correctamente ${personsData.news.length} Personas!`,
-                <>
-                    <span> {`Hubo ${personsData.duplicates.length} duplicados.`}</span>
-                    <span>{`Te quedan ${userData.user.remaining} personas para añadir`}</span>
-                </>)
 
             resetPersonsState();
-
         }).catch((error) => {
             showModal('error', 'Ups! hubo un error al registrar', <span>Intenta de nuevo mas tarde o habla con un administrador</span>)
             console.log(error)

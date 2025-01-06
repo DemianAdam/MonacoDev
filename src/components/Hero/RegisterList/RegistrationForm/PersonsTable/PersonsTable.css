@@ -1,0 +1,15 @@
+
+
+.accordion .accordion-item:nth-of-type(even) .accordion-button{
+    background-color: #6c757d !important;
+    color: white !important;
+}
+.accordion .accordion-item:nth-of-type(odd) .accordion-button{
+    background-color: #343a40 !important;
+    color: white !important;
+}
+
+
+.accordion-button:focus {
+    box-shadow: none;
+  }
