@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap'
 
 export default function PersonsTable({ headers, array }) {
   return (
-    <Table>
+    <Table striped bordered variant="dark" size="sm" responsive>
       <thead>
         <tr>
           {
