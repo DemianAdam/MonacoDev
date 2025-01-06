@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 export default function RegisterList({ setHeader, setLoading, setModalShow, setModalContent, user, setUser }) {
 
   useEffect(() => {
-    setHeader(<>{`! Hola ${user.name} !`}<p>Hace tu lista de personas</p></>);
+    setHeader(<>{`! Hola ${user.name} wea!`}<p>Hace tu lista de personas</p></>);
   }, [setHeader]);
 
 
