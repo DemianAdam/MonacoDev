@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import PersonsTable from './PersonsTable/PersonsTable';
 
-export default function RegistrationForm({ onLoading, setModalShow, setModalContent, user }) {
+export default function RegistrationForm({ onLoading, setModalShow, setModalContent, user, setFocus }) {
     const [errorMessage, setErrorMessage] = useState("");
     const [isAgeValid, setIsAgeValid] = useState(true);
     const [dniValue, setDniValue] = useState('');
@@ -163,21 +163,41 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
         setModalShow(false);
     }
 
+
+
     return (
         <>
 
             <Form onSubmit={handleSumbit}>
                 <Form.Group className="mb-3" controlId="input-firstname">
                     <Form.Label>Nombres</Form.Label>
-                    <Form.Control required={requiredInputs} minLength={3} maxLength={30} type="text" placeholder="Tu Nombre" name='name' onInput={(e) => e.target.value = e.target.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')} />
+                    <Form.Control
+                        required={requiredInputs}
+                        minLength={3}
+                        maxLength={30}
+                        type="text"
+                        placeholder="Tu Nombre"
+                        name='name'
+                        onInput={(e) => e.target.value = e.target.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')}
+                        onKeyDown={(e) => setFocus(e, 'input-lastname')}
+                    />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="input-lastname">
                     <Form.Label>Apellido</Form.Label>
-                    <Form.Control required={requiredInputs} minLength={3} maxLength={30} type="text" placeholder="Tu Apellido" name='lastname' onInput={(e) => e.target.value = e.target.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')} />
+                    <Form.Control
+                        required={requiredInputs}
+                        minLength={3}
+                        maxLength={30}
+                        type="text"
+                        placeholder="Tu Apellido"
+                        name='lastname'
+                        onInput={(e) => e.target.value = e.target.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')}
+                        onKeyDown={(e) => setFocus(e, 'input-dni')}
+                    />
                 </Form.Group>
 
-                <DniInput value={dniValue} setValue={setDniValue} required={requiredInputs} />
+                <DniInput value={dniValue} setValue={setDniValue} required={requiredInputs} setFocus={setFocus} />
                 <BirthDateInput onAgeValidityChange={handleAgeValidityChange} required={requiredInputs} />
                 {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
 

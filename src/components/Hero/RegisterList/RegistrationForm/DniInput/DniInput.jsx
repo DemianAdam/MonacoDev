@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 
-function DniInput({value,setValue,requiredInputs}) {
+function DniInput({ value, setValue, requiredInputs, setFocus }) {
 
     const [isValid, setIsValid] = useState(true);
 
@@ -9,7 +9,7 @@ function DniInput({value,setValue,requiredInputs}) {
     const handleChange = (e) => {
         const rawValue = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
         // Check if exactly 8 numbers are entered
-        setIsValid(rawValue.length === 0|| rawValue.length  === 3)
+        setIsValid(rawValue.length === 0 || rawValue.length === 3)
         setValue(rawValue);
 
     };
@@ -27,6 +27,7 @@ function DniInput({value,setValue,requiredInputs}) {
                 required={requiredInputs}
                 minLength={3}
                 maxLength={3}
+                onKeyDown={(e) => setFocus(e, 'input-birthdate')}
             />
             <Form.Control.Feedback type="invalid">
                 Debe ingresar exactamente 3 números.

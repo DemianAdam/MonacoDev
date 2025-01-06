@@ -17,6 +17,12 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [modalShow, setModalShow] = useState(false)
   const [modalContent, setModalContent] = useState({ title: "", body: "" });
+  function setFocus(e, id) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById(id).focus();
+    }
+}
   return (
     <>
       <Row className='w-100'>
@@ -41,6 +47,7 @@ function App() {
                         setModalShow={setModalShow}
                         setModalContent={setModalContent}
                         user={user}
+                        setFocus={setFocus}
                       />:
                       <Navigate replace to='/Monaco/Login' />
                     }
@@ -54,6 +61,7 @@ function App() {
                         setLoading={setLoading}
                         setModalShow={setModalShow}
                         setModalContent={setModalContent}
+                        setFocus={setFocus}
                       />}
                     />
                   </Routes> :
