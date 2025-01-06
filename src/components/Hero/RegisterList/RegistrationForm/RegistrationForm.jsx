@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import PersonsTable from './PersonsTable/PersonsTable';
 
-export default function RegistrationForm({ onLoading, setModalShow, setModalContent, user, setFocus }) {
+export default function RegistrationForm({ onLoading, setModalShow, setModalContent, user, setFocus, setToastShow, setToastContent }) {
     const [errorMessage, setErrorMessage] = useState("");
     const [isAgeValid, setIsAgeValid] = useState(true);
     const [dniValue, setDniValue] = useState('');
@@ -37,6 +37,8 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
 
     const addPerson = (newPerson) => {
         setPersons((prevPersons) => [...prevPersons, newPerson]);
+        setToastContent({ title: 'Persona añadida', body: `Se añadió a ${newPerson.name} ${newPerson.lastname} a la lista` });
+        setToastShow(true);
     }
 
     const showModal = (mode, title, body, footer) => {

@@ -3,7 +3,7 @@ import RegistrationForm from './RegistrationForm/RegistrationForm';
 import MyTable from './RegistrationForm/PersonsTable/PersonsTable'
 import { useEffect } from 'react';
 
-export default function RegisterList({ setHeader, setLoading, setModalShow, setModalContent, user, setUser, setFocus }) {
+export default function RegisterList({ setHeader, setLoading, setModalShow, setModalContent, user, setUser, setFocus,setToastShow, setToastContent }) {
 
   useEffect(() => {
     setHeader(<>{`! Hola ${user.name}!`}<p>Hace tu lista de personas</p></>);
@@ -19,6 +19,8 @@ export default function RegisterList({ setHeader, setLoading, setModalShow, setM
       user={user}
       setUser={setUser}
       setFocus={setFocus}
+      setToastShow={setToastShow}
+      setToastContent={setToastContent}
     />
   )
 }

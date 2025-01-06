@@ -1,5 +1,5 @@
 
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Button, ToastContainer } from 'react-bootstrap'
 import { useState } from 'react'
 import './App.css'
 import Footer from './components/Footer/Footer'
@@ -9,7 +9,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './components/Hero/LogIn/Login'
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner'
 import RegistrationModal from './components/RegistrationModal/RegistrationModal'
-
+import Toast from 'react-bootstrap/Toast'
 function App() {
   const [header, setHeader] = useState("");
   const [isLogged, setIsLogged] = useState(false);
@@ -17,12 +17,14 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [modalShow, setModalShow] = useState(false)
   const [modalContent, setModalContent] = useState({ title: "", body: "" });
+  const [toastShow, setToastShow] = useState(false);
+  const [toastContent, setToastContent] = useState({ title: "", body: "" });
   function setFocus(e, id) {
     if (e.key === 'Enter') {
-        e.preventDefault();
-        document.getElementById(id).focus();
+      e.preventDefault();
+      document.getElementById(id).focus();
     }
-}
+  }
   return (
     <>
       <Row className='w-100'>
@@ -41,16 +43,18 @@ function App() {
                   <Routes>
                     <Route
                       path='/Monaco'
-                      element={isLogged? <RegisterList
+                      element={isLogged ? <RegisterList
                         setHeader={setHeader}
                         setLoading={setLoading}
                         setModalShow={setModalShow}
                         setModalContent={setModalContent}
                         user={user}
                         setFocus={setFocus}
-                      />:
-                      <Navigate replace to='/Monaco/Login' />
-                    }
+                        setToastShow={setToastShow}
+                        setToastContent={setToastContent}
+                      /> :
+                        <Navigate replace to='/Monaco/Login' />
+                      }
                     />
                     <Route
                       path='/Monaco/Login'
@@ -65,7 +69,7 @@ function App() {
                       />}
                     />
                   </Routes> :
-                   <LoadingSpinner />
+                  <LoadingSpinner />
               }
 
               <RegistrationModal
@@ -82,6 +86,14 @@ function App() {
         <Footer />
       </Row>
 
+      <Toast className='position-absolute top-0 start-50 translate-middle-x' bg='success' show={toastShow} onClose={() => setToastShow(false)} delay={3000} autohide>
+        <Toast.Header>
+          <strong className="me-auto">{toastContent.title}</strong>
+        </Toast.Header>
+        <Toast.Body>
+          {toastContent.body}
+        </Toast.Body>
+      </Toast>
 
     </>
   )
