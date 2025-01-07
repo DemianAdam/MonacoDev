@@ -26,31 +26,6 @@ export default function PersonsTable({ headers, array }) {
         ))
       }
     </Accordion>
-    /*
-    <Table striped bordered variant="dark" size="sm" className='w-100'>
-      <thead>
-        <tr>
-          {
-            headers.map((e, i) =>
-              (<th key={i}>{e}</th>)
-            )
-          }
-        </tr>
-      </thead>
-      <tbody>
-        {
-          array.map((e, i) => (
-            <tr key={i}>
-              {
-                e.map((e, i) => (
-                  <td key={i}>{e}</td>
-                ))
-              }
-            </tr>
-          ))
-        }
-      </tbody>
-    </Table>
-  */
+    
   )
 }

@@ -1,3 +1,10 @@
 .my-modal .modal-content {
-    background-color: rgb(76, 76, 76);
-  }
+  background-color: rgb(76, 76, 76);
+  max-height: 70vh;
+  overflow: hidden;
+}
+
+.scrollable {
+  max-height: 40vh;
+  overflow-y: auto;
+}

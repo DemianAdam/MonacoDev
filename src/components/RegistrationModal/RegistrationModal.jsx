@@ -24,7 +24,9 @@ export default function RegistrationModal(props) {
 
 
       <Modal.Body className='text-center modal-header d-flex flex-column justify-content-center'>
-        {props.content.body}
+        <div className='scrollable'>
+          {props.content.body}
+        </div>
       </Modal.Body>
 
       <Modal.Footer className='d-flex justify-content-evenly'>
