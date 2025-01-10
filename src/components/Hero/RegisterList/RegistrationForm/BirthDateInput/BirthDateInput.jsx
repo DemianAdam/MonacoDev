@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form } from 'react-bootstrap';
 
-export default function BirthDateInput({ onAgeValidityChange,requiredInputs }) {
+export default function BirthDateInput({ onAgeValidityChange,required }) {
     const [isValid, setIsValid] = useState(true);
     const calculateAge = (dateString) => {
         const today = new Date();
@@ -28,7 +28,7 @@ export default function BirthDateInput({ onAgeValidityChange,requiredInputs }) {
             <Form.Control
                 type="date"
                 name='birthday'
-                required={requiredInputs}
+                required={required}
                 onChange={handleChange}
                 isInvalid={!isValid}
 

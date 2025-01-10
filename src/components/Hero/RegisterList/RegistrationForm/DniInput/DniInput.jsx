@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 
-function DniInput({ value, setValue, requiredInputs, setFocus }) {
+function DniInput({ value, setValue, required, setFocus }) {
 
     const [isValid, setIsValid] = useState(true);
 
@@ -24,7 +24,7 @@ function DniInput({ value, setValue, requiredInputs, setFocus }) {
                 value={value}
                 onChange={handleChange}
                 isInvalid={!isValid} // Highlight input if invalid
-                required={requiredInputs}
+                required={required}
                 minLength={3}
                 maxLength={3}
                 onKeyDown={(e) => setFocus(e, 'input-birthdate')}
