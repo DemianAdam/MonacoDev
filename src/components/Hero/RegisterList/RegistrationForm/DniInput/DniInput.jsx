@@ -27,7 +27,7 @@ function DniInput({ value, setValue, required, setFocus }) {
                 required={required}
                 minLength={3}
                 maxLength={3}
-                onKeyDown={(e) => setFocus(e, 'input-birthdate')}
+                onKeyDown={(e) => setFocus(e, 'input-birth-day')}
             />
             <Form.Control.Feedback type="invalid">
                 Debe ingresar exactamente 3 números.

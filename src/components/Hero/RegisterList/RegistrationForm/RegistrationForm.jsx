@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import DniInput from './DniInput/DniInput';
@@ -12,9 +12,11 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
     const [errorMessage, setErrorMessage] = useState("");
     const [isAgeValid, setIsAgeValid] = useState(true);
     const [dniValue, setDniValue] = useState('');
+    const [isValid, setIsValid] = useState(true);
     const [requiredInputs, setRequiredInputs] = useState(true);
     const [persons, setPersons] = useState([]);
     const [modalMode, setModalMode] = useState(null); // 'view', 'register', or 'error'
+    const formRef = useRef(null); // Reference for the form
 
 
     useEffect(() => {
@@ -53,10 +55,18 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
     const register = (data) => {
         const url = "https://script.google.com/macros/s/AKfycbxke3-BJloTrtP6wmLBzSyV44E-BQGIffHM_IWEds067-g5wxKGaPUjmSszVBE0mfDr/exec"
         onLoading(true)
+        const personsMapped = data.map((person) => {
+            return {
+                name: person.name,
+                lastname: person.lastname,
+                dni: person.dni,
+                birthday: `${person.birthYear}-${person.birthMonth}-${person.birthDay}`
+            }
+        })
         const obj = {
             method: "POST",
             endpoint: "addPersons",
-            persons: data,
+            persons: personsMapped,
             user
         }
         const json = JSON.stringify(obj);
@@ -96,7 +106,10 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
     const resetPersonsState = () => {
         setPersons([]);
         setRequiredInputs(true);
-    }
+        formRef.current?.reset(); // Reset the form inputs
+        setDniValue(''); // Reset custom input value
+        setErrorMessage(''); // Clear error messages
+    };
     const generateTableContent = (persons, deletePersonCallback) => {
         const tableHeaders = ["#", "Nombre", "Apellido", "DNI", "Fecha de Nacimiento", "Eliminar"];
         const tableRows = persons.map((person, index) => {
@@ -128,9 +141,11 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
         event.preventDefault();
-        event.target.reset();
+        if(!isValid){
+            setErrorMessage('La fecha ingresada no es valida');
+            return;
+        }
         const clickedButton = event.nativeEvent.submitter.name;
-        setDniValue('');
         console.log(data)
 
         switch (clickedButton) {
@@ -170,7 +185,7 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
     return (
         <>
 
-            <Form onSubmit={handleSumbit}>
+            <Form ref={formRef} onSubmit={handleSumbit}>
                 <Form.Group className="mb-3" controlId="input-firstname">
                     <Form.Label>Nombres</Form.Label>
                     <Form.Control
@@ -200,7 +215,7 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
                 </Form.Group>
 
                 <DniInput value={dniValue} setValue={setDniValue} required={requiredInputs} setFocus={setFocus} />
-                <BirthDateInput onAgeValidityChange={handleAgeValidityChange} required={requiredInputs} />
+                <BirthDateInput onAgeValidityChange={handleAgeValidityChange} required={requiredInputs} setFocus={setFocus} setIsValid={setIsValid} isValid={isValid} />
                 {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
 
                 <div className='d-flex justify-content-evenly'>
