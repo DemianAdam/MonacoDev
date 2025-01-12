@@ -57,8 +57,8 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
         onLoading(true)
         const personsMapped = data.map((person) => {
             return {
-                name: person.name,
-                lastname: person.lastname,
+                name: person.name.trim(),
+                lastname: person.lastname.trim(),
                 dni: person.dni,
                 birthday: `${person.birthYear}-${person.birthMonth}-${person.birthDay}`
             }
@@ -115,8 +115,8 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
         const tableRows = persons.map((person, index) => {
             return [
                 index + 1,
-                person.name,
-                person.lastname,
+                person.name.trim(),
+                person.lastname.trim(),
                 person.dni,
                 person.birthday,
                 <Button
