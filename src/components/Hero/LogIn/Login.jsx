@@ -24,7 +24,7 @@ export default function Login({ setHeader, setIsLogged, setUser, setLoading, set
             }
         }
         ).then((response) => {
-            const data = response.data;
+            const data = response.data; 
             if (data.result === "success") {
                 setIsLogged(true);
                 setUser(data.userData.user);

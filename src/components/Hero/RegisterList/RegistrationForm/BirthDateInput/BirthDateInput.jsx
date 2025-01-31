@@ -48,7 +48,7 @@ export default function BirthDateInput({ onAgeValidityChange, required, setFocus
         const birthDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
         const age = calculateAge(birthDate);
 
-        if (isNaN(age) || age < 18 || age > 50) {
+        if (isNaN(age) || age < 18) {
             setIsValid(false);
             setErrorMessage('Tenés que tener mas de 18 años.');
             onAgeValidityChange(false);
