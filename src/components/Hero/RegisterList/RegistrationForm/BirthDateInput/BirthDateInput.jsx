@@ -70,10 +70,6 @@ export default function BirthDateInput({ onAgeValidityChange, required, setFocus
         return date.getFullYear() - 18;
     }
 
-    const getMinYear = () => {
-        const date = new Date();
-        return date.getFullYear() - 50;
-    }
 
     return (
         <Form.Group className="mb-3">
@@ -109,7 +105,6 @@ export default function BirthDateInput({ onAgeValidityChange, required, setFocus
                     type="number"
                     name='birthYear'
                     required={required}
-                    min={getMinYear()}
                     max={getMaxYear()}
                     id='input-birth-year'
                     onChange={handleChange}

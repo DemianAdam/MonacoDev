@@ -3,9 +3,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
-export default function Login({ setHeader, setIsLogged, setUser, setLoading, setModalShow, setModalContent,setFocus }) {
+export default function Login({ setHeader, setIsLogged, setUser, setLoading, setModalShow, setModalContent, setFocus }) {
     useEffect(() => {
         setHeader("¡Inicia Sesión!");
     }, [setHeader]);
@@ -24,7 +24,7 @@ export default function Login({ setHeader, setIsLogged, setUser, setLoading, set
             }
         }
         ).then((response) => {
-            const data = response.data; 
+            const data = response.data;
             if (data.result === "success") {
                 setIsLogged(true);
                 setUser(data.userData.user);
@@ -54,7 +54,7 @@ export default function Login({ setHeader, setIsLogged, setUser, setLoading, set
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="input-username">
                     <Form.Label>Usuario</Form.Label>
-                    <Form.Control type="text" placeholder="Ingresa tu usuario" name='username' onKeyDown={(e)=> setFocus(e,'input-password')} />
+                    <Form.Control type="text" placeholder="Ingresa tu usuario" name='username' onKeyDown={(e) => setFocus(e, 'input-password')} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="input-password">
