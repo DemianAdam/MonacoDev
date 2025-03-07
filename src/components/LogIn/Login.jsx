@@ -28,7 +28,7 @@ export default function Login({ setHeader, setIsLogged, setUser, setLoading, set
             if (data.result === "success") {
                 setIsLogged(true);
                 setUser(data.userData.user);
-                navigate('/Monaco')
+                navigate('/MonacoDev')
             }
             else {
                 setModalContent({ title: "Error", body: "Usuario o contraseña incorrectos" });

@@ -42,7 +42,7 @@ function App() {
                 !loading ?
                   <Routes>
                     <Route
-                      path='/Monaco'
+                      path='/MonacoDev'
                       element={isLogged ? <RegisterList
                         setHeader={setHeader}
                         setLoading={setLoading}
@@ -53,11 +53,11 @@ function App() {
                         setToastShow={setToastShow}
                         setToastContent={setToastContent}
                       /> :
-                        <Navigate replace to='/Monaco/Login' />
+                        <Navigate replace to='/MonacoDev/Login' />
                       }
                     />
                     <Route
-                      path='/Monaco/Login'
+                      path='/MonacoDev/Login'
                       element={<Login
                         setHeader={setHeader}
                         setIsLogged={setIsLogged}
