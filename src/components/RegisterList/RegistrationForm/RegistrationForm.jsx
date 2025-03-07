@@ -53,7 +53,8 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
         setModalShow(true);
     }
     const register = (data) => {
-        const url = "https://script.google.com/macros/s/AKfycbxke3-BJloTrtP6wmLBzSyV44E-BQGIffHM_IWEds067-g5wxKGaPUjmSszVBE0mfDr/exec"
+        const url = "https://script.google.com/macros/s/AKfycbxke3-BJloTrtP6wmLBzSyV44E-BQGIffHM_IWEds067-g5wxKGaPUjmSszVBE0mfDr/exec";
+        console.log("Test")
         onLoading(true)
         const personsMapped = data.map((person) => {
             return {
