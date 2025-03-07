@@ -54,7 +54,7 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
     }
     const register = (data) => {
         const url = "https://script.google.com/macros/s/AKfycbxke3-BJloTrtP6wmLBzSyV44E-BQGIffHM_IWEds067-g5wxKGaPUjmSszVBE0mfDr/exec"
-        //onLoading(true)
+        onLoading(true)
         const personsMapped = data.map((person) => {
             return {
                 name: person.name.trim(),
@@ -75,7 +75,7 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
             const personsData = data.personsData;
             const userData = data.userData;
             console.log(data)
-           /* if (data.result !== "success") {
+            if (data.result !== "success") {
                 showModal('error', 'Ups! hubo un error al registrar', <span>{data.description}</span>)
                 return;
             }
@@ -89,10 +89,10 @@ export default function RegistrationForm({ onLoading, setModalShow, setModalCont
                         <span> {`Hubo ${personsData.duplicates.length} duplicados.`}</span>
                         <span>{`Te quedan ${userData.user.remaining} personas para añadir`}</span>
                     </>)
-            }*/
+            }
 
 
-           //resetPersonsState();
+           resetPersonsState();
         }).catch((error) => {
             showModal('error', 'Ups! hubo un error al registrar', <span>Intenta de nuevo mas tarde o habla con un administrador</span>)
             console.log(error)
